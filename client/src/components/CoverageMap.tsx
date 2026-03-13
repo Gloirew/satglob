@@ -1,45 +1,49 @@
-/* Design: Dark Cosmos — Interactive SVG Africa coverage map with glow effects */
+/* Design: Dark Cosmos — Interactive real Africa map with country borders and glow effects */
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { MapPin, Signal } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { africaCountries } from "./africaMapData";
 
-interface Country {
+interface CoveredCountry {
   name: string;
   code: string;
-  cx: number;
-  cy: number;
   region: string;
 }
 
-const coveredCountries: Country[] = [
-  { name: "Guinea-Bissau", code: "GW", cx: 118, cy: 228, region: "West Africa" },
-  { name: "Sierra Leone", code: "SL", cx: 125, cy: 248, region: "West Africa" },
-  { name: "Liberia", code: "LR", cx: 132, cy: 260, region: "West Africa" },
-  { name: "Ghana", code: "GH", cx: 170, cy: 252, region: "West Africa" },
-  { name: "Benin", code: "BJ", cx: 185, cy: 248, region: "West Africa" },
-  { name: "Niger", code: "NE", cx: 190, cy: 210, region: "West Africa" },
-  { name: "Nigeria", code: "NG", cx: 200, cy: 240, region: "West Africa" },
-  { name: "Chad", code: "TD", cx: 240, cy: 205, region: "Central Africa" },
-  { name: "South Sudan", code: "SS", cx: 300, cy: 240, region: "East Africa" },
-  { name: "DR Congo", code: "CD", cx: 270, cy: 280, region: "Central Africa" },
-  { name: "Rwanda", code: "RW", cx: 300, cy: 275, region: "East Africa" },
-  { name: "Burundi", code: "BI", cx: 300, cy: 288, region: "East Africa" },
-  { name: "Somalia", code: "SO", cx: 365, cy: 235, region: "East Africa" },
-  { name: "Kenya", code: "KE", cx: 335, cy: 260, region: "East Africa" },
-  { name: "Zambia", code: "ZM", cx: 295, cy: 330, region: "Southern Africa" },
-  { name: "Malawi", code: "MW", cx: 325, cy: 325, region: "Southern Africa" },
-  { name: "Mozambique", code: "MZ", cx: 335, cy: 355, region: "Southern Africa" },
-  { name: "Zimbabwe", code: "ZW", cx: 305, cy: 350, region: "Southern Africa" },
-  { name: "Botswana", code: "BW", cx: 280, cy: 365, region: "Southern Africa" },
-  { name: "Eswatini", code: "SZ", cx: 315, cy: 380, region: "Southern Africa" },
-  { name: "Lesotho", code: "LS", cx: 300, cy: 395, region: "Southern Africa" },
-  { name: "Madagascar", code: "MG", cx: 370, cy: 345, region: "Indian Ocean" },
-  { name: "Reunion", code: "RE", cx: 395, cy: 370, region: "Indian Ocean" },
-  { name: "Mauritius", code: "MU", cx: 405, cy: 355, region: "Indian Ocean" },
+const coveredCountries: CoveredCountry[] = [
+  { name: "Guinea-Bissau", code: "GW", region: "West Africa" },
+  { name: "Sierra Leone", code: "SL", region: "West Africa" },
+  { name: "Liberia", code: "LR", region: "West Africa" },
+  { name: "Ghana", code: "GH", region: "West Africa" },
+  { name: "Benin", code: "BJ", region: "West Africa" },
+  { name: "Niger", code: "NE", region: "West Africa" },
+  { name: "Nigeria", code: "NG", region: "West Africa" },
+  { name: "Chad", code: "TD", region: "Central Africa" },
+  { name: "South Sudan", code: "SS", region: "East Africa" },
+  { name: "DR Congo", code: "CD", region: "Central Africa" },
+  { name: "Rwanda", code: "RW", region: "East Africa" },
+  { name: "Burundi", code: "BI", region: "East Africa" },
+  { name: "Somalia", code: "SO", region: "East Africa" },
+  { name: "Kenya", code: "KE", region: "East Africa" },
+  { name: "Zambia", code: "ZM", region: "Southern Africa" },
+  { name: "Malawi", code: "MW", region: "Southern Africa" },
+  { name: "Mozambique", code: "MZ", region: "Southern Africa" },
+  { name: "Zimbabwe", code: "ZW", region: "Southern Africa" },
+  { name: "Botswana", code: "BW", region: "Southern Africa" },
+  { name: "Swaziland", code: "SZ", region: "Southern Africa" },
+  { name: "Lesotho", code: "LS", region: "Southern Africa" },
+  { name: "Madagascar", code: "MG", region: "Indian Ocean" },
+  { name: "La Reunion", code: "RE", region: "Indian Ocean" },
+  { name: "Mauritius", code: "MU", region: "Indian Ocean" },
 ];
 
+const coveredCodes = new Set(coveredCountries.map(c => c.code));
 const regions = Array.from(new Set(coveredCountries.map(c => c.region)));
+
+function getRegionForCode(code: string): string | undefined {
+  return coveredCountries.find(c => c.code === code)?.region;
+}
 
 export default function CoverageMap() {
   const { ref, visible } = useScrollReveal();
@@ -47,9 +51,10 @@ export default function CoverageMap() {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const { t } = useLanguage();
 
-  const filteredCountries = selectedRegion
-    ? coveredCountries.filter(c => c.region === selectedRegion)
-    : coveredCountries;
+  const filteredCovered = useMemo(() => {
+    if (!selectedRegion) return coveredCountries;
+    return coveredCountries.filter(c => c.region === selectedRegion);
+  }, [selectedRegion]);
 
   const getRegionLabel = (region: string) => {
     return t(`coverage.regions.${region}`) || region;
@@ -100,66 +105,216 @@ export default function CoverageMap() {
         </div>
 
         <div className={`relative max-w-4xl mx-auto reveal-scale ${visible ? "visible" : ""}`}>
-          <div className="relative bg-white/[0.02] glow-border rounded-2xl p-6 lg:p-10 backdrop-blur-sm">
-            <svg viewBox="80 140 360 290" className="w-full h-auto" style={{ maxHeight: "550px" }}>
-              <path
-                d="M155,155 Q175,148 195,150 Q215,148 235,152 Q255,148 275,155 Q295,150 315,158 Q335,155 350,165 Q365,175 372,190 Q378,205 375,220 Q372,235 368,248 Q365,260 358,272 Q355,285 350,298 Q345,310 340,322 Q335,335 328,348 Q320,360 312,372 Q305,382 295,390 Q285,398 275,395 Q265,392 258,382 Q250,372 245,360 Q240,348 235,338 Q230,328 225,318 Q220,308 215,298 Q210,288 202,278 Q195,268 185,260 Q175,252 165,248 Q155,244 148,238 Q140,232 138,222 Q136,212 140,202 Q144,192 150,182 Q155,172 158,162 Z"
-                fill="rgba(6, 182, 212, 0.04)"
-                stroke="rgba(6, 182, 212, 0.12)"
-                strokeWidth="1.5"
-                className="transition-all duration-500"
-              />
-              {[180, 220, 260, 300, 340, 380].map(y => (
-                <line key={`h-${y}`} x1="80" y1={y} x2="440" y2={y} stroke="rgba(6, 182, 212, 0.03)" strokeWidth="0.5" />
+          <div className="relative bg-white/[0.02] glow-border rounded-2xl p-4 lg:p-8 backdrop-blur-sm">
+            {/* SVG Glow filter definitions */}
+            <svg width="0" height="0" className="absolute">
+              <defs>
+                <filter id="glow-active" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+                <filter id="glow-hover" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="5" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+            </svg>
+
+            <svg
+              viewBox="60 0 780 900"
+              className="w-full h-auto"
+              style={{ maxHeight: "600px" }}
+            >
+              {/* Grid lines for spatial feel */}
+              {[100, 200, 300, 400, 500, 600, 700, 800].map(y => (
+                <line key={`h-${y}`} x1="60" y1={y} x2="840" y2={y} stroke="rgba(6, 182, 212, 0.03)" strokeWidth="0.5" />
               ))}
-              {[120, 160, 200, 240, 280, 320, 360, 400].map(x => (
-                <line key={`v-${x}`} x1={x} y1="140" x2={x} y2="430" stroke="rgba(6, 182, 212, 0.03)" strokeWidth="0.5" />
+              {[100, 200, 300, 400, 500, 600, 700, 800].map(x => (
+                <line key={`v-${x}`} x1={x} y1="0" x2={x} y2="900" stroke="rgba(6, 182, 212, 0.03)" strokeWidth="0.5" />
               ))}
-              {coveredCountries.map((c, i) => {
-                if (i === 0) return null;
-                const nearest = coveredCountries.slice(0, i).reduce((best, other) => {
-                  const d = Math.hypot(c.cx - other.cx, c.cy - other.cy);
-                  const bd = Math.hypot(c.cx - best.cx, c.cy - best.cy);
-                  return d < bd ? other : best;
-                });
-                const isActive = !selectedRegion || (c.region === selectedRegion && nearest.region === selectedRegion);
+
+              {/* All countries */}
+              {africaCountries.map((country) => {
+                const isCovered = coveredCodes.has(country.code);
+                const region = getRegionForCode(country.code);
+                const isHoveredCountry = hovered === country.code;
+                const isFilteredOut = selectedRegion && (!isCovered || region !== selectedRegion);
+
+                let fillColor = "rgba(255, 255, 255, 0.03)";
+                let strokeColor = "rgba(255, 255, 255, 0.08)";
+                let strokeWidth = 0.5;
+                let opacity = 1;
+
+                if (isCovered) {
+                  if (isFilteredOut) {
+                    fillColor = "rgba(6, 182, 212, 0.04)";
+                    strokeColor = "rgba(6, 182, 212, 0.12)";
+                    opacity = 0.5;
+                  } else if (isHoveredCountry) {
+                    fillColor = "rgba(6, 182, 212, 0.25)";
+                    strokeColor = "rgba(6, 182, 212, 0.6)";
+                    strokeWidth = 1.5;
+                  } else {
+                    fillColor = "rgba(6, 182, 212, 0.12)";
+                    strokeColor = "rgba(6, 182, 212, 0.35)";
+                    strokeWidth = 0.8;
+                  }
+                } else {
+                  fillColor = "rgba(255, 255, 255, 0.03)";
+                  strokeColor = "rgba(255, 255, 255, 0.08)";
+                  if (selectedRegion) {
+                    fillColor = "rgba(255, 255, 255, 0.025)";
+                    strokeColor = "rgba(255, 255, 255, 0.12)";
+                  }
+                  if (isHoveredCountry) {
+                    fillColor = "rgba(255, 255, 255, 0.06)";
+                    strokeColor = "rgba(255, 255, 255, 0.15)";
+                    opacity = 1;
+                  }
+                }
+
                 return (
-                  <line
-                    key={`conn-${c.code}`}
-                    x1={nearest.cx} y1={nearest.cy} x2={c.cx} y2={c.cy}
-                    stroke={isActive ? "rgba(6, 182, 212, 0.12)" : "rgba(6, 182, 212, 0.03)"}
-                    strokeWidth="0.5" strokeDasharray="3 3"
-                    className="transition-all duration-500"
-                  />
-                );
-              })}
-              {coveredCountries.map((c) => {
-                const isFiltered = selectedRegion && c.region !== selectedRegion;
-                const isHovered = hovered === c.code;
-                return (
-                  <g
-                    key={c.code}
-                    onMouseEnter={() => setHovered(c.code)}
-                    onMouseLeave={() => setHovered(null)}
-                    className="cursor-pointer"
-                    style={{ opacity: isFiltered ? 0.15 : 1, transition: "opacity 0.5s" }}
-                  >
-                    <circle cx={c.cx} cy={c.cy} r={isHovered ? 14 : 9} fill="none" stroke="rgba(6, 182, 212, 0.25)" strokeWidth="1" className="transition-all duration-300" style={{ animation: isHovered ? "glow-ring 2s ease-in-out infinite" : "none" }} />
-                    <circle cx={c.cx} cy={c.cy} r={isHovered ? 8 : 5} fill={isHovered ? "rgba(6, 182, 212, 0.15)" : "rgba(6, 182, 212, 0.05)"} className="transition-all duration-300" />
-                    <circle cx={c.cx} cy={c.cy} r={isHovered ? 4.5 : 3} fill={isHovered ? "#06b6d4" : "rgba(6, 182, 212, 0.7)"} className="transition-all duration-300" />
-                    {isHovered && (
-                      <g>
-                        <rect x={c.cx - 55} y={c.cy - 38} width="110" height="28" rx="6" fill="rgba(3, 7, 18, 0.95)" stroke="rgba(6, 182, 212, 0.3)" strokeWidth="1" />
-                        <text x={c.cx} y={c.cy - 24} textAnchor="middle" fill="#06b6d4" fontSize="8.5" fontFamily="Inter Tight" fontWeight="600">{c.name}</text>
-                        <text x={c.cx} y={c.cy - 14} textAnchor="middle" fill="#9ca3af" fontSize="6.5" fontFamily="Inter Tight">{getRegionLabel(c.region)}</text>
+                  <g key={country.code}>
+                    <path
+                      d={country.path}
+                      fill={fillColor}
+                      stroke={strokeColor}
+                      strokeWidth={strokeWidth}
+                      strokeLinejoin="round"
+                      className="transition-all duration-500 cursor-pointer"
+                      style={{ opacity, filter: isCovered && isHoveredCountry ? "url(#glow-hover)" : undefined }}
+                      onMouseEnter={() => setHovered(country.code)}
+                      onMouseLeave={() => setHovered(null)}
+                    />
+                    {/* Pulsing dot for covered countries */}
+                    {isCovered && !isFilteredOut && (
+                      <g
+                        onMouseEnter={() => setHovered(country.code)}
+                        onMouseLeave={() => setHovered(null)}
+                        className="cursor-pointer"
+                      >
+                        <circle
+                          cx={country.cx}
+                          cy={country.cy}
+                          r={isHoveredCountry ? 10 : 6}
+                          fill="none"
+                          stroke="rgba(6, 182, 212, 0.3)"
+                          strokeWidth="1"
+                          className="transition-all duration-300"
+                          style={{
+                            animation: isHoveredCountry ? "glow-ring 2s ease-in-out infinite" : "none",
+                          }}
+                        />
+                        <circle
+                          cx={country.cx}
+                          cy={country.cy}
+                          r={isHoveredCountry ? 5 : 3}
+                          fill={isHoveredCountry ? "#06b6d4" : "rgba(6, 182, 212, 0.8)"}
+                          className="transition-all duration-300"
+                        />
                       </g>
                     )}
                   </g>
                 );
               })}
+
+              {/* Connection lines between covered countries */}
+              {coveredCountries.map((c, i) => {
+                if (i === 0) return null;
+                const countryData = africaCountries.find(ac => ac.code === c.code);
+                if (!countryData) return null;
+                
+                // Find nearest covered country
+                const previous = coveredCountries.slice(0, i);
+                let nearest = previous[0];
+                let minDist = Infinity;
+                for (const p of previous) {
+                  const pd = africaCountries.find(ac => ac.code === p.code);
+                  if (!pd) continue;
+                  const d = Math.hypot(countryData.cx - pd.cx, countryData.cy - pd.cy);
+                  if (d < minDist) {
+                    minDist = d;
+                    nearest = p;
+                  }
+                }
+                const nearestData = africaCountries.find(ac => ac.code === nearest.code);
+                if (!nearestData) return null;
+
+                const isActive = !selectedRegion || (c.region === selectedRegion && nearest.region === selectedRegion);
+                
+                return (
+                  <line
+                    key={`conn-${c.code}`}
+                    x1={nearestData.cx}
+                    y1={nearestData.cy}
+                    x2={countryData.cx}
+                    y2={countryData.cy}
+                    stroke={isActive ? "rgba(6, 182, 212, 0.1)" : "rgba(6, 182, 212, 0.02)"}
+                    strokeWidth="0.5"
+                    strokeDasharray="4 4"
+                    className="transition-all duration-500"
+                  />
+                );
+              })}
+
+              {/* Tooltip for hovered country */}
+              {hovered && (() => {
+                const country = africaCountries.find(c => c.code === hovered);
+                if (!country) return null;
+                const isCovered = coveredCodes.has(country.code);
+                const region = getRegionForCode(country.code);
+                const tooltipWidth = 130;
+                const tooltipHeight = isCovered ? 36 : 28;
+                
+                // Adjust tooltip position to stay within viewBox
+                let tx = country.cx - tooltipWidth / 2;
+                let ty = country.cy - tooltipHeight - 15;
+                if (tx < 65) tx = 65;
+                if (tx + tooltipWidth > 835) tx = 835 - tooltipWidth;
+                if (ty < 5) ty = country.cy + 15;
+
+                return (
+                  <g>
+                    <rect
+                      x={tx}
+                      y={ty}
+                      width={tooltipWidth}
+                      height={tooltipHeight}
+                      rx="6"
+                      fill="rgba(3, 7, 18, 0.95)"
+                      stroke={isCovered ? "rgba(6, 182, 212, 0.4)" : "rgba(255, 255, 255, 0.15)"}
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={tx + tooltipWidth / 2}
+                      y={ty + (isCovered ? 14 : 17)}
+                      textAnchor="middle"
+                      fill={isCovered ? "#06b6d4" : "#9ca3af"}
+                      fontSize="10"
+                      fontFamily="Inter Tight, sans-serif"
+                      fontWeight="600"
+                    >
+                      {country.name}
+                    </text>
+                    {isCovered && region && (
+                      <text
+                        x={tx + tooltipWidth / 2}
+                        y={ty + 28}
+                        textAnchor="middle"
+                        fill="#9ca3af"
+                        fontSize="8"
+                        fontFamily="Inter Tight, sans-serif"
+                      >
+                        {getRegionLabel(region)}
+                      </text>
+                    )}
+                  </g>
+                );
+              })()}
             </svg>
 
-            <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-cyan-500/10">
+            {/* Legend */}
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-6 pt-6 border-t border-cyan-500/10">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-cyan-400" />
                 <span className="text-sm text-gray-400 font-[Inter_Tight]">{t("coverage.activeCoverage")}</span>
@@ -167,7 +322,7 @@ export default function CoverageMap() {
               <div className="flex items-center gap-2">
                 <Signal className="w-4 h-4 text-cyan-400" />
                 <span className="text-sm text-gray-400 font-[Inter_Tight]">
-                  {filteredCountries.length} {t("coverage.countries")}
+                  {filteredCovered.length} {t("coverage.countries")}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -179,6 +334,7 @@ export default function CoverageMap() {
             </div>
           </div>
 
+          {/* Country list */}
           <div className="mt-8 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2">
             {coveredCountries.map((c) => {
               const isFiltered = selectedRegion && c.region !== selectedRegion;
