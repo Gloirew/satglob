@@ -1,6 +1,7 @@
-/* Design: Dark Cosmos — glowing stat counters with improved animation */
+/* Design: Dark Cosmos — glowing stat counters with animation */
 import { Globe, Users, Shield, Zap } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 function useCounter(target: number, duration = 2000) {
   const [count, setCount] = useState(0);
@@ -56,15 +57,17 @@ function StatItem({ icon: Icon, target, suffix, prefix, label }: {
 }
 
 export default function StatsBar() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative py-16 lg:py-20 border-y border-cyan-500/10">
       <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/[0.03] via-transparent to-blue-500/[0.03]" />
       <div className="container relative">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          <StatItem icon={Globe} target={23} suffix="+" label="Countries Covered" />
-          <StatItem icon={Users} target={500} suffix="+" label="Enterprise Clients" />
-          <StatItem icon={Shield} target={99} suffix=".9%" label="Uptime SLA" />
-          <StatItem icon={Zap} target={48} suffix="h" prefix="<" label="Deployment Time" />
+          <StatItem icon={Globe} target={23} suffix="+" label={t("stats.countries")} />
+          <StatItem icon={Users} target={500} suffix="+" label={t("stats.clients")} />
+          <StatItem icon={Shield} target={99} suffix=".9%" label={t("stats.uptime")} />
+          <StatItem icon={Zap} target={48} suffix="h" prefix="<" label={t("stats.deployment")} />
         </div>
       </div>
     </section>

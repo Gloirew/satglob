@@ -1,67 +1,63 @@
 /* Design: Dark Cosmos — about section with partner logos and key features */
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Satellite, Globe, ShieldCheck, Rocket } from "lucide-react";
-
-const partners = [
-  { name: "GoConnect", desc: "Exclusive distribution across Africa" },
-  { name: "Marlink", desc: "Global leader in satellite connectivity" },
-  { name: "Stellar", desc: "Professional management platform" },
-  { name: "Starlink Priority", desc: "Enterprise-grade satellite network" },
-];
-
-const highlights = [
-  { icon: Satellite, title: "Professional Connectivity", desc: "Enterprise-grade satellite internet with priority data handling and dedicated bandwidth allocation." },
-  { icon: Globe, title: "Centralized Management", desc: "Single interface to manage all your terminals, subscriptions, and deployments across multiple countries." },
-  { icon: ShieldCheck, title: "Advanced Security", desc: "Full data anonymization, encrypted tunnels, private IPs, and military-grade security protocols." },
-  { icon: Rocket, title: "Rapid Deployment", desc: "Get connected in under 48 hours with our express integration and ready-to-ship equipment stock." },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function AboutSection() {
   const { ref, visible } = useScrollReveal();
+  const { t } = useLanguage();
+
+  const partners = [
+    { name: "GoConnect", desc: t("about.highlight1Desc").slice(0, 50) + "..." },
+    { name: "Marlink", desc: t("about.highlight2Desc").slice(0, 50) + "..." },
+    { name: "Stellar", desc: t("about.highlight3Desc").slice(0, 50) + "..." },
+    { name: "Starlink Priority", desc: t("about.highlight4Desc").slice(0, 50) + "..." },
+  ];
+
+  const highlights = [
+    { icon: Satellite, title: t("about.highlight1Title"), desc: t("about.highlight1Desc") },
+    { icon: Globe, title: t("about.highlight2Title"), desc: t("about.highlight2Desc") },
+    { icon: ShieldCheck, title: t("about.highlight3Title"), desc: t("about.highlight3Desc") },
+    { icon: Rocket, title: t("about.highlight4Title"), desc: t("about.highlight4Desc") },
+  ];
 
   return (
     <section id="about" className="relative py-24 lg:py-32 overflow-hidden">
-      {/* Background accent */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
 
       <div ref={ref} className={`container relative ${visible ? "visible" : ""}`}>
-        {/* Section header */}
         <div className={`max-w-3xl mb-16 reveal ${visible ? "visible" : ""}`}>
           <span className="text-cyan-400 text-sm font-semibold tracking-[0.2em] uppercase font-[Inter_Tight] mb-4 block">
-            About SatGlob
+            {t("about.label")}
           </span>
           <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6 font-[Outfit] leading-tight">
-            A Division of{" "}
-            <span className="text-gradient">Bridge Sats</span>
+            {t("about.title1")}{" "}
+            <span className="text-gradient">{t("about.titleHighlight")}</span>
           </h2>
           <p className="text-lg text-gray-400 leading-relaxed">
-            SatGlob deploys professional-grade satellite connectivity solutions across Africa and internationally. 
-            Leveraging Starlink Priority plans and a unified management interface, our service is specifically 
-            tailored for enterprises, operational mobility, and multi-site architectures.
+            {t("about.description")}
           </p>
         </div>
 
         {/* Partners */}
-        <div className={`grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20 stagger-children ${visible ? "visible" : ""}`}>
-          {partners.map((p) => (
-            <div
-              key={p.name}
-              className="glow-border rounded-xl p-6 bg-white/[0.02] backdrop-blur-sm text-center"
-            >
-              <h3 className="text-lg font-bold text-white font-[Outfit] mb-2">{p.name}</h3>
-              <p className="text-sm text-gray-400">{p.desc}</p>
-            </div>
-          ))}
+        <div className={`mb-16 reveal ${visible ? "visible" : ""}`}>
+          <h3 className="text-sm font-semibold text-gray-500 tracking-[0.2em] uppercase font-[Inter_Tight] mb-6 text-center">
+            {t("about.partnersTitle")}
+          </h3>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {["GoConnect", "Marlink", "Stellar", "Starlink Priority"].map((name) => (
+              <div key={name} className="glow-border rounded-xl p-6 bg-white/[0.02] backdrop-blur-sm text-center">
+                <h3 className="text-lg font-bold text-white font-[Outfit]">{name}</h3>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Highlights */}
         <div className={`grid md:grid-cols-2 gap-6 stagger-children ${visible ? "visible" : ""}`}>
           {highlights.map((h) => (
-            <div
-              key={h.title}
-              className="card-hover glow-border rounded-xl p-8 bg-white/[0.02] backdrop-blur-sm flex gap-5"
-            >
+            <div key={h.title} className="card-hover glow-border rounded-xl p-8 bg-white/[0.02] backdrop-blur-sm flex gap-5">
               <div className="shrink-0 w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center">
                 <h.icon className="w-6 h-6 text-cyan-400" />
               </div>

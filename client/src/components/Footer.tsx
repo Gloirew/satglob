@@ -1,7 +1,10 @@
 /* Design: Dark Cosmos — professional footer with scroll-to-top */
 import { Satellite, ArrowUp } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -19,7 +22,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="text-sm text-gray-500 leading-relaxed mb-4">
-              A division of Bridge Sats Sarl. Enterprise satellite connectivity for Africa and beyond.
+              {t("footer.brand")}
             </p>
             <div className="space-y-1 text-xs text-gray-600">
               <p>RCCM: CD/GOM/RCCM/24-B-01557</p>
@@ -29,13 +32,13 @@ export default function Footer() {
 
           {/* Solutions */}
           <div>
-            <h4 className="text-sm font-semibold text-white font-[Inter_Tight] tracking-wider uppercase mb-4">Solutions</h4>
+            <h4 className="text-sm font-semibold text-white font-[Inter_Tight] tracking-wider uppercase mb-4">{t("footer.solutions")}</h4>
             <ul className="space-y-2.5">
               {[
-                { label: "Enterprise Connectivity", href: "#solutions" },
-                { label: "NGO & Humanitarian", href: "#solutions" },
-                { label: "Mining & Energy", href: "#solutions" },
-                { label: "Telecom Operators", href: "#isps" },
+                { label: t("footer.enterpriseConn"), href: "#solutions" },
+                { label: t("footer.ngoHumanitarian"), href: "#solutions" },
+                { label: t("footer.miningEnergy"), href: "#solutions" },
+                { label: t("footer.telecomOps"), href: "#isps" },
               ].map((item) => (
                 <li key={item.label}>
                   <a href={item.href} className="text-sm text-gray-500 hover:text-cyan-400 transition-colors">
@@ -48,13 +51,13 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <h4 className="text-sm font-semibold text-white font-[Inter_Tight] tracking-wider uppercase mb-4">Resources</h4>
+            <h4 className="text-sm font-semibold text-white font-[Inter_Tight] tracking-wider uppercase mb-4">{t("footer.resources")}</h4>
             <ul className="space-y-2.5">
               {[
-                { label: "Coverage Map", href: "#coverage" },
-                { label: "Equipment", href: "#equipment" },
-                { label: "Network Security", href: "#security" },
-                { label: "FAQ", href: "#faq" },
+                { label: t("footer.coverageMap"), href: "#coverage" },
+                { label: t("footer.equipmentLink"), href: "#equipment" },
+                { label: t("footer.securityLink"), href: "#security" },
+                { label: t("footer.faqLink"), href: "#faq" },
               ].map((item) => (
                 <li key={item.label}>
                   <a href={item.href} className="text-sm text-gray-500 hover:text-cyan-400 transition-colors">
@@ -67,7 +70,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-sm font-semibold text-white font-[Inter_Tight] tracking-wider uppercase mb-4">Contact</h4>
+            <h4 className="text-sm font-semibold text-white font-[Inter_Tight] tracking-wider uppercase mb-4">{t("footer.contactTitle")}</h4>
             <ul className="space-y-2.5">
               <li>
                 <a href="mailto:contact@bridgesats.com" className="text-sm text-gray-500 hover:text-cyan-400 transition-colors">
@@ -91,11 +94,11 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-600">
-            &copy; {new Date().getFullYear()} SatGlob by Bridge Sats Sarl. All rights reserved.
+            &copy; {new Date().getFullYear()} {t("footer.copyright")}
           </p>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4">
-              <span className="text-xs text-gray-600">Powered by</span>
+              <span className="text-xs text-gray-600">{t("footer.poweredBy")}</span>
               {["GoConnect", "Marlink", "Stellar"].map((p) => (
                 <span key={p} className="text-xs text-gray-500 font-[Inter_Tight]">{p}</span>
               ))}

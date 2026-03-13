@@ -3,9 +3,11 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useState } from "react";
 import { Send, Mail, ExternalLink, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function ContactSection() {
   const { ref, visible } = useScrollReveal();
+  const { t, lang } = useLanguage();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -18,7 +20,7 @@ export default function ContactSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    toast.success("Thank you! Our team will contact you shortly.");
+    toast.success(lang === "fr" ? "Merci ! Notre équipe vous contactera sous peu." : "Thank you! Our team will contact you shortly.");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -34,15 +36,14 @@ export default function ContactSection() {
           {/* Left info */}
           <div className={`reveal-left ${visible ? "visible" : ""}`}>
             <span className="text-cyan-400 text-sm font-semibold tracking-[0.2em] uppercase font-[Inter_Tight] mb-4 block">
-              Contact
+              {t("contact.label")}
             </span>
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6 font-[Outfit] leading-tight">
-              Ready to Connect?{" "}
-              <span className="text-gradient">Talk to Our Team</span>
+              {t("contact.title")}{" "}
+              <span className="text-gradient">{t("contact.titleHighlight")}</span>
             </h2>
             <p className="text-gray-400 leading-relaxed mb-10">
-              Whether you need satellite connectivity for a single site or an entire fleet 
-              across Africa, our team is ready to design the perfect solution for your needs.
+              {t("contact.description")}
             </p>
 
             <div className="space-y-6">
@@ -51,7 +52,7 @@ export default function ContactSection() {
                   <Mail className="w-5 h-5 text-cyan-400" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-white font-[Inter_Tight] mb-1">Email Us</h4>
+                  <h4 className="text-sm font-semibold text-white font-[Inter_Tight] mb-1">{t("contact.emailUs")}</h4>
                   <a href="mailto:contact@bridgesats.com" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
                     contact@bridgesats.com
                   </a>
@@ -63,7 +64,7 @@ export default function ContactSection() {
                   <ExternalLink className="w-5 h-5 text-cyan-400" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-white font-[Inter_Tight] mb-1">Support Portal</h4>
+                  <h4 className="text-sm font-semibold text-white font-[Inter_Tight] mb-1">{t("contact.supportPortal")}</h4>
                   <a href="https://bridgesats.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
                     bridgesats.com
                   </a>
@@ -77,16 +78,22 @@ export default function ContactSection() {
             {submitted ? (
               <div className="glow-border rounded-2xl bg-white/[0.03] backdrop-blur-sm p-10 text-center">
                 <CheckCircle className="w-16 h-16 text-cyan-400 mx-auto mb-6" />
-                <h3 className="text-2xl font-bold text-white font-[Outfit] mb-3">Message Sent</h3>
+                <h3 className="text-2xl font-bold text-white font-[Outfit] mb-3">
+                  {lang === "fr" ? "Message envoyé" : "Message Sent"}
+                </h3>
                 <p className="text-gray-400">
-                  Thank you for reaching out. Our sales team will get back to you within 24 hours.
+                  {lang === "fr"
+                    ? "Merci de nous avoir contactés. Notre équipe commerciale vous répondra dans les 24 heures."
+                    : "Thank you for reaching out. Our sales team will get back to you within 24 hours."}
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="glow-border rounded-2xl bg-white/[0.03] backdrop-blur-sm p-8 lg:p-10 space-y-5">
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Name *</label>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">
+                      {t("contact.form.name")} {t("contact.form.required")}
+                    </label>
                     <input
                       type="text"
                       name="name"
@@ -94,11 +101,13 @@ export default function ContactSection() {
                       value={formData.name}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm"
-                      placeholder="Your name"
+                      placeholder={t("contact.form.namePlaceholder")}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Company *</label>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">
+                      {t("contact.form.company")} {t("contact.form.required")}
+                    </label>
                     <input
                       type="text"
                       name="company"
@@ -106,14 +115,16 @@ export default function ContactSection() {
                       value={formData.company}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm"
-                      placeholder="Company name"
+                      placeholder={t("contact.form.companyPlaceholder")}
                     />
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Country *</label>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">
+                      {t("contact.form.country")} {t("contact.form.required")}
+                    </label>
                     <input
                       type="text"
                       name="country"
@@ -121,11 +132,13 @@ export default function ContactSection() {
                       value={formData.country}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm"
-                      placeholder="Your country"
+                      placeholder={t("contact.form.countryPlaceholder")}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Email *</label>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">
+                      {t("contact.form.email")} {t("contact.form.required")}
+                    </label>
                     <input
                       type="email"
                       name="email"
@@ -133,13 +146,15 @@ export default function ContactSection() {
                       value={formData.email}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm"
-                      placeholder="you@company.com"
+                      placeholder={t("contact.form.emailPlaceholder")}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Message *</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">
+                    {t("contact.form.message")} {t("contact.form.required")}
+                  </label>
                   <textarea
                     name="message"
                     required
@@ -147,7 +162,7 @@ export default function ContactSection() {
                     value={formData.message}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm resize-none"
-                    placeholder="Tell us about your connectivity needs..."
+                    placeholder={t("contact.form.messagePlaceholder")}
                   />
                 </div>
 
@@ -156,7 +171,7 @@ export default function ContactSection() {
                   className="btn-glow w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-cyan-500 text-[#030712] font-semibold rounded-lg font-[Inter_Tight] hover:bg-cyan-400 transition-colors"
                 >
                   <Send className="w-4 h-4" />
-                  Send Message
+                  {t("contact.form.submit")}
                 </button>
               </form>
             )}
