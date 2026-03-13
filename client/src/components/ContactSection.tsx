@@ -1,0 +1,168 @@
+/* Design: Dark Cosmos — professional contact form */
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useState } from "react";
+import { Send, Mail, ExternalLink, CheckCircle } from "lucide-react";
+import { toast } from "sonner";
+
+export default function ContactSection() {
+  const { ref, visible } = useScrollReveal();
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    country: "",
+    email: "",
+    message: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    toast.success("Thank you! Our team will contact you shortly.");
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <section id="contact" className="relative py-24 lg:py-32">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/[0.02] to-transparent" />
+
+      <div ref={ref} className="container relative">
+        <div className="grid lg:grid-cols-2 gap-16">
+          {/* Left info */}
+          <div className={`reveal-left ${visible ? "visible" : ""}`}>
+            <span className="text-cyan-400 text-sm font-semibold tracking-[0.2em] uppercase font-[Inter_Tight] mb-4 block">
+              Contact
+            </span>
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6 font-[Outfit] leading-tight">
+              Ready to Connect?{" "}
+              <span className="text-gradient">Talk to Our Team</span>
+            </h2>
+            <p className="text-gray-400 leading-relaxed mb-10">
+              Whether you need satellite connectivity for a single site or an entire fleet 
+              across Africa, our team is ready to design the perfect solution for your needs.
+            </p>
+
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5 text-cyan-400" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-white font-[Inter_Tight] mb-1">Email Us</h4>
+                  <a href="mailto:contact@bridgesats.com" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
+                    contact@bridgesats.com
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0">
+                  <ExternalLink className="w-5 h-5 text-cyan-400" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-white font-[Inter_Tight] mb-1">Support Portal</h4>
+                  <a href="https://bridgesats.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
+                    bridgesats.com
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right form */}
+          <div className={`reveal-right ${visible ? "visible" : ""}`}>
+            {submitted ? (
+              <div className="glow-border rounded-2xl bg-white/[0.03] backdrop-blur-sm p-10 text-center">
+                <CheckCircle className="w-16 h-16 text-cyan-400 mx-auto mb-6" />
+                <h3 className="text-2xl font-bold text-white font-[Outfit] mb-3">Message Sent</h3>
+                <p className="text-gray-400">
+                  Thank you for reaching out. Our sales team will get back to you within 24 hours.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="glow-border rounded-2xl bg-white/[0.03] backdrop-blur-sm p-8 lg:p-10 space-y-5">
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Company *</label>
+                    <input
+                      type="text"
+                      name="company"
+                      required
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm"
+                      placeholder="Company name"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Country *</label>
+                    <input
+                      type="text"
+                      name="country"
+                      required
+                      value={formData.country}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm"
+                      placeholder="Your country"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Email *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm"
+                      placeholder="you@company.com"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2 font-[Inter_Tight]">Message *</label>
+                  <textarea
+                    name="message"
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all outline-none text-sm resize-none"
+                    placeholder="Tell us about your connectivity needs..."
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn-glow w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-cyan-500 text-[#030712] font-semibold rounded-lg font-[Inter_Tight] hover:bg-cyan-400 transition-colors"
+                >
+                  <Send className="w-4 h-4" />
+                  Send Message
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
