@@ -65,7 +65,7 @@ export default function StatsBar() {
       <div className="container relative">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <StatItem icon={Globe} target={23} suffix="+" label={t("stats.countries")} />
-          <StatItem icon={Users} target={500} suffix="+" label={t("stats.clients")} />
+          <StatItem icon={Users} target={10} suffix="+" label={t("stats.clients")} />
           <StatItem icon={Shield} target={99} suffix=".9%" label={t("stats.uptime")} />
           <StatItem icon={Zap} target={48} suffix="h" prefix="<" label={t("stats.deployment")} />
         </div>
