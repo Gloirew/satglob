@@ -9,14 +9,14 @@ const fr = {
     contact: "Nous contacter",
   },
   hero: {
-    badge: "Propulsé par Starlink Priority",
+    badge: "Propulsé par GoConnect",
     title1: "Connectivité Satellite",
     title2: "Professionnelle pour",
     titleHighlight: "l'Afrique",
     title3: "et au-delà",
     subtitle: "Sécurisé. Mobile. Évolutif.",
     description:
-      "Solutions Internet par satellite professionnelles pour entreprises, ONG, gouvernements et opérateurs télécoms dans plus de 23 pays africains.",
+      "Solutions Internet par satellite pour entreprises, ONG, gouvernements et opérateurs télécoms dans plus de 23 pays africains.",
     cta1: "Découvrir nos solutions",
     cta2: "Nous contacter",
     partners: "Partenaires technologiques",
@@ -25,7 +25,7 @@ const fr = {
   stats: {
     countries: "Pays couverts",
     clients: "Clients entreprises",
-    uptime: "Disponibilité SLA",
+    uptime: "Disponibilité",
     deployment: "Temps de déploiement",
   },
   about: {
@@ -33,7 +33,7 @@ const fr = {
     title1: "Une division de",
     titleHighlight: "Bridge Sats",
     description:
-      "SatGlob est la division connectivité entreprise de Bridge Sats, spécialisée dans les solutions Internet par satellite professionnelles. Grâce à nos partenariats avec les principaux opérateurs satellite, nous offrons une connectivité sécurisée, évolutive et gérée à travers l'Afrique.",
+      "SatGlob est la division connectivité entreprise de Bridge Sats, spécialisée dans les solutions Internet par satellite. Grâce à nos partenariats avec les principaux opérateurs satellite, nous offrons une connectivité sécurisée, évolutive et gérée à travers l'Afrique.",
     highlight1Title: "Connectivité professionnelle",
     highlight1Desc:
       "Internet par satellite de qualité entreprise avec bande passante dédiée et accès prioritaire via le réseau Starlink Priority.",
