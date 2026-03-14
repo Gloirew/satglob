@@ -162,7 +162,7 @@ const fr = {
       title: "Starlink High Performance",
       subtitle: "Puissance maximale",
       desc: "Indispensable pour les environnements difficiles, les infrastructures FAI et les stations de base. Stabilité supérieure sous charge et températures extrêmes.",
-      badge: "Recommandé pour l'Afrique",
+      badge: "Recommandé pour un usage Intense",
       features: ["Débit supérieur", "Résilience thermique", "Multi-antennes", "Optimisé Priority"],
       useCases: "Cas d'usage",
       cases: ["Sites miniers", "Stations de base FAI", "Zones industrielles"],
