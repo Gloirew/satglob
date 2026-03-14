@@ -27,6 +27,7 @@ export default function Footer() {
             <div className="space-y-1 text-xs text-gray-600">
               <p>RCCM: CD/GOM/RCCM/24-B-01557</p>
               <p>ID.NAT: 19-J6100-N55328U</p>
+              <p>Impôts : A2425191J</p>
             </div>
           </div>
 
