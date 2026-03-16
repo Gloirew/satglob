@@ -8,10 +8,10 @@ export default function AboutSection() {
   const { t } = useLanguage();
 
   const partners = [
-    { name: "GoConnect", desc: t("about.highlight1Desc").slice(0, 50) + "..." },
-    { name: "Marlink", desc: t("about.highlight2Desc").slice(0, 50) + "..." },
-    { name: "Stellar", desc: t("about.highlight3Desc").slice(0, 50) + "..." },
-    { name: "Starlink Priority", desc: t("about.highlight4Desc").slice(0, 50) + "..." },
+    { name: "GoConnect", logo: "/logos/goconnect.africa.png", url: "https://goconnect.africa" },
+    { name: "Marlink", logo: "/logos/ok marlink.png", url: "https://marlink.com" },
+    { name: "Stellar", logo: "/logos/stellar.png", url: "https://stellar.tc" },
+    { name: "Starlink Priority", logo: "/logos/starlink.png", url: "https://starlink.com" },
   ];
 
   const highlights = [
@@ -40,16 +40,28 @@ export default function AboutSection() {
           </p>
         </div>
 
-        {/* Partners */}
+        {/* Partners Section - Version Vite/Standard */}
         <div className={`mb-16 reveal ${visible ? "visible" : ""}`}>
           <h3 className="text-sm font-semibold text-gray-500 tracking-[0.2em] uppercase font-[Inter_Tight] mb-6 text-center">
             {t("about.partnersTitle")}
           </h3>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {["GoConnect", "Marlink", "Stellar", "Starlink Priority"].map((name) => (
-              <div key={name} className="glow-border rounded-xl p-6 bg-white/[0.02] backdrop-blur-sm text-center">
-                <h3 className="text-lg font-bold text-white font-[Outfit]">{name}</h3>
-              </div>
+            {partners.map((partner) => (
+              <a 
+                key={partner.name} 
+                href={partner.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="glow-border rounded-xl p-6 bg-white/[0.02] backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white/[0.05] group"
+              >
+                <div className="relative w-full h-12 flex items-center justify-center">
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-h-full max-w-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                  />
+                </div>
+              </a>
             ))}
           </div>
         </div>

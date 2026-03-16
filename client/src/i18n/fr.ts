@@ -29,7 +29,7 @@ const fr = {
     deployment: "Temps de déploiement",
   },
   about: {
-    label: "À propos de SatGlob",
+    label: "À propos de SatGlob", 
     title1: "Une division de",
     titleHighlight: "Bridge Sats",
     description:
