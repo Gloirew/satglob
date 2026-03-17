@@ -14,17 +14,17 @@ export default function Footer() {
     {
       name: "LinkedIn",
       icon: Linkedin,
-      url: "https://linkedin.com",
+      url: "https://www.linkedin.com/company/112493931/",
     },
     {
       name: "Facebook",
       icon: Facebook,
-      url: "https://facebook.com",
+      url: "https://web.facebook.com/people/SatGlob/61579485662882/",
     },
     {
       name: "X",
       icon: SiX,
-      url: "https://x.com",
+      url: "https://x.com/SatglobInternet",
     },
   ];
 
