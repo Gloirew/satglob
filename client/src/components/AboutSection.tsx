@@ -52,9 +52,9 @@ export default function AboutSection() {
                 href={partner.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="glow-border rounded-xl p-6 bg-white/[0.02] backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white/[0.05] group"
+                className="rounded-xl p-2 backdrop-blur-sm flex items-center justify-center transition-all group"
               >
-                <div className="relative w-full h-12 flex items-center justify-center">
+                <div className="relative w-full h-24 flex items-center justify-center">
                   <img
                     src={partner.logo}
                     alt={partner.name}
