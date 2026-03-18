@@ -19,8 +19,22 @@ export default function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Construction du lien mailto avec les données du formulaire
+    const subject = encodeURIComponent(`Nouveau contact de ${formData.name} (${formData.company})`);
+    const body = encodeURIComponent(
+      `Nom: ${formData.name}\n` +
+      `Entreprise: ${formData.company}\n` +
+      `Pays: ${formData.country}\n` +
+      `Email: ${formData.email}\n\n` +
+      `Message:\n${formData.message}`
+    );
+    
+    // Redirection vers le client mail
+    window.location.href = `mailto:contact@bridgesats.com?subject=${subject}&body=${body}`;
+    
     setSubmitted(true);
-    toast.success(lang === "fr" ? "Merci ! Notre équipe vous contactera sous peu." : "Thank you! Our team will contact you shortly.");
+    toast.success(lang === "fr" ? "Merci ! Votre client mail vient de s'ouvrir." : "Thank you! Your email client has opened.");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

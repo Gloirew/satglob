@@ -142,16 +142,6 @@ export default function Footer() {
                   gloirew@bridgesats.com
                 </a>
               </li>
-              <li>
-                <a
-                  href="https://bridgesats.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-500 hover:text-cyan-400 transition-colors"
-                >
-                  bridgesats.com
-                </a>
-              </li>
             </ul>
           </div>
         </div>
