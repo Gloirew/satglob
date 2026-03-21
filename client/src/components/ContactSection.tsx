@@ -72,18 +72,6 @@ export default function ContactSection() {
                   </a>
                 </div>
               </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0">
-                  <ExternalLink className="w-5 h-5 text-cyan-400" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-white font-[Inter_Tight] mb-1">{t("contact.supportPortal")}</h4>
-                  <a href="https://bridgesats.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
-                    bridgesats.com
-                  </a>
-                </div>
-              </div>
             </div>
           </div>
 
