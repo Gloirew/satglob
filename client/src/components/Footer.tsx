@@ -134,24 +134,6 @@ export default function Footer() {
                   contact@bridgesats.com
                 </a>
               </li>
-              <li>
-                <a
-                  href="mailto:gloirew@bridgesats.com"
-                  className="text-sm text-gray-500 hover:text-cyan-400 transition-colors"
-                >
-                  gloirew@bridgesats.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://bridgesats.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-500 hover:text-cyan-400 transition-colors"
-                >
-                  bridgesats.com
-                </a>
-              </li>
             </ul>
           </div>
         </div>
@@ -163,19 +145,26 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-4">
-              <span className="text-xs text-gray-600">
-                {t("footer.poweredBy")}
-              </span>
-              {["GoConnect", "Marlink", "Stellar"].map((p) => (
-                <span
-                  key={p}
-                  className="text-xs text-gray-500 font-[Inter_Tight]"
-                >
-                  {p}
-                </span>
-              ))}
-            </div>
+           <div className="flex items-center gap-4">
+  <span className="text-xs text-gray-600">
+    {t("footer.poweredBy")}
+  </span>
+  {[
+    { name: "GoConnect", url: "https://www.goconnect.africa" },
+    { name: "Marlink", url: "https://www.marlink.com" },
+    { name: "Stellar", url: "https://www.stellar.tc" }
+  ].map((p) => (
+    <a
+      key={p.name}
+      href={p.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-xs text-gray-500 font-[Inter_Tight]"
+    >
+      {p.name}
+    </a>
+  ))}
+</div>
 
             <button
               onClick={scrollToTop}

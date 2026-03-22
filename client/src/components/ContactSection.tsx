@@ -19,8 +19,22 @@ export default function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Construction du lien mailto avec les données du formulaire
+    const subject = encodeURIComponent(`Nouveau contact de ${formData.name} (${formData.company})`);
+    const body = encodeURIComponent(
+      `Nom: ${formData.name}\n` +
+      `Entreprise: ${formData.company}\n` +
+      `Pays: ${formData.country}\n` +
+      `Email: ${formData.email}\n\n` +
+      `Message:\n${formData.message}`
+    );
+    
+    // Redirection vers le client mail
+    window.location.href = `mailto:contact@bridgesats.com?subject=${subject}&body=${body}`;
+    
     setSubmitted(true);
-    toast.success(lang === "fr" ? "Merci ! Notre équipe vous contactera sous peu." : "Thank you! Our team will contact you shortly.");
+    toast.success(lang === "fr" ? "Merci ! Votre client mail vient de s'ouvrir." : "Thank you! Your email client has opened.");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -55,18 +69,6 @@ export default function ContactSection() {
                   <h4 className="text-sm font-semibold text-white font-[Inter_Tight] mb-1">{t("contact.emailUs")}</h4>
                   <a href="mailto:contact@bridgesats.com" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
                     contact@bridgesats.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0">
-                  <ExternalLink className="w-5 h-5 text-cyan-400" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-white font-[Inter_Tight] mb-1">{t("contact.supportPortal")}</h4>
-                  <a href="https://bridgesats.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
-                    bridgesats.com
                   </a>
                 </div>
               </div>

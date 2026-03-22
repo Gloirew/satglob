@@ -40,25 +40,25 @@ export default function AboutSection() {
           </p>
         </div>
 
-        {/* Partners Section - Version Vite/Standard */}
-        <div className={`mb-16 reveal ${visible ? "visible" : ""}`}>
-          <h3 className="text-sm font-semibold text-gray-500 tracking-[0.2em] uppercase font-[Inter_Tight] mb-6 text-center">
+        {/* Partners Section - Optimized for 2x2 Grid */}
+        <div className={`mb-24 reveal ${visible ? "visible" : ""}`}>
+          <h3 className="text-sm font-semibold text-gray-500 tracking-[0.2em] uppercase font-[Inter_Tight] mb-10 text-center">
             {t("about.partnersTitle")}
           </h3>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {partners.map((partner) => (
               <a 
                 key={partner.name} 
                 href={partner.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="rounded-xl p-2 backdrop-blur-sm flex items-center justify-center transition-all group"
+                className="group relative flex items-center justify-center p-8 rounded-2xl bg-white/[0.01] border border-white/[0.05] hover:bg-white/[0.03] hover:border-cyan-500/20 transition-all duration-500"
               >
-                <div className="relative w-full h-24 flex items-center justify-center">
+                <div className="relative w-full h-28 flex items-center justify-center overflow-hidden">
                   <img
                     src={partner.logo}
                     alt={partner.name}
-                    className="max-h-full max-w-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                    className="max-h-full max-w-[80%] object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                   />
                 </div>
               </a>
