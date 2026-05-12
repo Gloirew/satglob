@@ -65,7 +65,7 @@ export default function CTABanner() {
           >
             <MessageCircle className="h-5 w-5" />
 
-            <span>Écrire à notre équipe</span>
+            <span>Whatsapp</span>
           </a>
 
           {/* Secondary CTA */}
