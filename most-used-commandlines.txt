@@ -1,0 +1,5 @@
+# Installation de dependances et packages du projet
+npm install --legacy-peer-deps
+
+# Tourner le serveur localement
+npm run dev
